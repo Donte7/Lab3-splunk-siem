@@ -62,8 +62,7 @@ NSG rules (defined in terraform/main.tf):
   🔐 Port 8000 (Web UI)    → your IP only
   🔐 Port 9997 (forwarder) → Lab 1 AD VNet CIDR only, via VNet Peering
 ```
- 
-![Lab 3 Architecture Diagram](screenshots/architecture-diagram.png)
+ ![alt text](architecture-diagram-1.png)
  
 ---
  
