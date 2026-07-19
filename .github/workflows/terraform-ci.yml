@@ -1,0 +1,72 @@
+# .github/workflows/terraform-ci.yml
+#
+# WHAT: Tier 1 CI pipeline for the Terraform configuration in terraform/.
+#       Runs on every push and pull request that touches Terraform files.
+#       Three checks, none of which require Azure credentials:
+#         1. terraform fmt -check   — formatting consistency
+#         2. terraform validate     — HCL syntax + internal reference validity
+#         3. tfsec                  — static security analysis
+#
+# WHY THESE THREE, AND WHY THEY'RE SAFE TO RUN WITHOUT AZURE CREDS:
+#       All three operate purely by READING the .tf files on disk — none of
+#       them make an API call to Azure, so none of them need a service
+#       principal, OIDC federation, or any secret stored in this repo.
+#       That's a deliberate scope boundary: this pipeline catches code
+#       QUALITY and KNOWN SECURITY ANTI-PATTERNS, but it cannot tell you
+#       whether `terraform apply` would actually succeed against the real
+#      #      #      #      #      #      #      #     expiry, etc. are
+#       only discoverable by an actual plan/apply — see terraform/README.md
+#       for why that's intentionally a separate, not-yet-built Tier 2).
+#
+# HOW THIS FITS: this is the automated version of exactly the manual
+#       verification steps we did by hand throughout this build — reading
+#       plan output carefully, checking NSG rule scoping, confirming no
+#       secrets got staged. A human still has to understand WHY these
+#       checks matter (that's what the whole SOP was for); this pipeline
+#       just makes sure nobody, including future-you in a hurry, skips them.
+
+name: Terraform CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "terraform/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "terraform/**"
+  workflow_dispatch:
+
+jobs:
+  fmt-and-validate:
+    name: Format & Validate
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+
+      - name: terraform fmt (check only, no changes written)
+        run: terraform fmt -check -recursive
+
+      - name: terraform init (backend-less, just to resolve providers)
+        run: terraform init -backend=false
+
+      - name: terraform validate
+        run: terraf        run: terraf        run: terraf        run: terraf        rununs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: terraform
