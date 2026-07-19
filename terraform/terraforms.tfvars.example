@@ -1,0 +1,53 @@
+# terraform.tfvars
+#
+# WHAT: This is YOUR real configuration values — Terraform reads this file
+#       automatically (no flag needed) whenever you run `plan` or `apply`.
+# WHY THIS FILE EXISTS SEPARATELY FROM variables.tf: variables.tf declares
+#       WHAT inputs exist and their types/descriptions (the form). This
+#       file supplies the actual VALUES (the filled-in answers). Keeping
+#       them separate means the form (variables.tf) is safe to share/commit,
+#       while your answers (this file) are not.
+#
+# SECURITY NOTE: this file will contain your real public IP address once
+# filled in. That is personally identifying network information — never
+# commit it, never paste its contents into a public chat, issue tracker,
+# or Slack channel. Treat it the same way you'd treat a password.
+
+# ------------------------------------------------------------------
+# REQUIRED — Terraform will refuse to run without these two values.
+# ------------------------------------------------------------------
+
+# Your public IP, in CIDR notation, with /32 (meaning "exactly this one
+# IP, nothing else"). Find yours by running in your terminal:
+#     curl https://ifconfig.me
+# Then append "/32" to whatever number comes back.
+# Used to scope SSH (port 22) and the Splunk web UI (port 8000) NSG
+# rules so ONLY your machine can reach them — not the whole internet.
+my_ip_cidr = "REPLACE_WITH_YOUR_IP/32"
+
+# The address space of your Lab 1 Active Directory VM's VNet.
+# Check: Azure Portal -> Virtual Networks -> (your Lab 1 VNet) -> Address space
+# Commonly "10.0.0.0/16" if you followed the lab doc defaults — but
+# CONFIRM this in the Portal rather than assuming; getting it wrong
+# either breaks the Splunk forwarder connection (too narrow) or opens
+# port 9997 wider than it needs to be (too broad).
+ad_vnet_cidr = "10.0.0.0/16"
+
+# ------------------------------------------------------------------
+# OPTIONAL — sane defaults already exist in variables.tf. Only
+# uncomment and edit these if you specifically need something
+# different from the lab doc's standard setup.
+# ------------------------------------------------------------------
+
+# location             = "eastus"
+# vm_size              = "Standard_D2s_v3"
+# admin_username       = "azureuser"
+# ssh_public_key_path  = "~/.ssh/id_ed25519.pub"
+
+.ssh/lab3-splunk-rsa.pub # RSA is required 
+
+
+private_ip_address = "10.1.1.4"
+public_ip_address = "20.120.33.52"
+splunk_web_ui_url = "http://20.120.33.52:8000"
+ssh_command = "ssh azureuser@20.120.33.52"

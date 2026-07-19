@@ -1,0 +1,13 @@
+.DS_Store
+Thumbs.db
+*.swp
+.vscode/settings.json
+**/*.tfstate
+**/*.tfstate.*
+**/*.tfvars
+**/*.tfvars.json
+!**/terraform.tfvars.example
+**/.terraform/*
+**/.terraform.lock.hcl.bak
+**/crash.log
+**/crash.*.log
