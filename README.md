@@ -12,10 +12,10 @@
  
 | | |
 |---|---|
-| 🎓 **Certification alignment** | CompTIA Security+ · CySA+ · Splunk Core Certified User |
-| 💰 **Cost** | $0 — Splunk Free license covers this entire lab (500MB/day indexing) |
-| ⏱️ **Time to complete** | 4–6 hours across multiple sessions |
-| 💼 **Career relevance** | SOC Analyst (Tier 1–3) · Security Engineer · Incident Responder · Cloud/DevOps Engineer (IaC + CI/CD) |
+|  **Certification alignment** | CompTIA Security+ · CySA+ · Splunk Core Certified User |
+|  **Cost** | $0 — Splunk Free license covers this entire lab (500MB/day indexing) |
+|  **Time to complete** | 4–6 hours across multiple sessions |
+|  **Career relevance** | SOC Analyst (Tier 1–3) · Security Engineer · Incident Responder · Cloud/DevOps Engineer (IaC + CI/CD) |
  
 ---
  
@@ -29,10 +29,10 @@ Splunk is the most widely deployed commercial SIEM. Building this lab gives you 
  
 | Role | How this lab applies |
 |---|---|
-| 🔍 SOC Analyst Tier 1 | Monitoring dashboards for alerts, searching logs for suspicious activity, escalating findings |
-| 🕵️ SOC Analyst Tier 2–3 | Building detection rules, correlating events across data sources, threat hunting |
-| ☁️ Cloud Security Engineer | Microsoft Sentinel and AWS Security Hub use the same SIEM concepts; Terraform + CI/CD is the same automation discipline used to stand up and safeguard production security tooling |
-| 🚨 Incident Responder | Searching logs during an active incident, building a timeline of events, identifying scope of compromise |
+|  SOC Analyst Tier 1 | Monitoring dashboards for alerts, searching logs for suspicious activity, escalating findings |
+|  SOC Analyst Tier 2–3 | Building detection rules, correlating events across data sources, threat hunting |
+|  Cloud Security Engineer | Microsoft Sentinel and AWS Security Hub use the same SIEM concepts; Terraform + CI/CD is the same automation discipline used to stand up and safeguard production security tooling |
+|  Incident Responder | Searching logs during an active incident, building a timeline of events, identifying scope of compromise |
  
 ---
  
@@ -58,9 +58,9 @@ SOC Analyst (browser on local machine)
   Searches · dashboards · alert investigation
  
 NSG rules (defined in terraform/main.tf):
-  🔐 Port 22 (SSH)         → your IP only
-  🔐 Port 8000 (Web UI)    → your IP only
-  🔐 Port 9997 (forwarder) → Lab 1 AD VNet CIDR only, via VNet Peering
+   Port 22 (SSH)         → your IP only
+   Port 8000 (Web UI)    → your IP only
+   Port 9997 (forwarder) → Lab 1 AD VNet CIDR only, via VNet Peering
 ```
  ![alt text](architecture-diagram-1.png)
  
@@ -96,7 +96,7 @@ Every push or pull request touching `terraform/**` is automatically checked by G
  
 **Real example from this build:** the pipeline caught a genuine `terraform fmt` violation (a misaligned `disk_size_gb` argument left over from manual editing) and failed the build until it was fixed with `terraform fmt -recursive` — see commit history for the actual failure → fix → pass sequence. That's the pipeline doing its job, not a demo for show.
  
-**🔜 Tier 2 (documented, not yet implemented):** `terraform plan` posted as a PR comment, and a manually-gated `terraform apply` on merge to `main`. This requires Azure OIDC federation (a proper Azure AD App Registration trusting GitHub Actions, so no long-lived credentials are ever stored as a static GitHub secret) — a deliberate next step once the manual workflow is fully proven out, not skipped by accident.
+** Tier 2 (documented, not yet implemented):** `terraform plan` posted as a PR comment, and a manually-gated `terraform apply` on merge to `main`. This requires Azure OIDC federation (a proper Azure AD App Registration trusting GitHub Actions, so no long-lived credentials are ever stored as a static GitHub secret) — a deliberate next step once the manual workflow is fully proven out, not skipped by accident.
  
 **⚠️ Important limitation, not a flaw:** passing Tier 1 checks means the code is syntactically valid, correctly formatted, and free of known security anti-patterns. It does **not** guarantee `terraform apply` would succeed against the real Azure API — quota limits, name collisions, and auth expiry are only discoverable by an actual `plan`/`apply`, which is exactly what Tier 2 would add.
  
@@ -106,45 +106,45 @@ Every push or pull request touching `terraform/**` is automatically checked by G
  
 ## 📚 Key Concepts (Read Before Starting)
  
-- 🧩 **SIEM** — Security Information and Event Management. Collects logs from across the environment into one searchable place. Two core jobs: **correlation** (connecting events across systems) and **alerting** (notifying analysts automatically).
-- 🔎 **SPL (Search Processing Language)** — Splunk's query language. Works as a pipeline: `index=windows_logs EventCode=4624 | stats count by Account_Name | sort -count`. Find the events, then shape the results.
-- 🗂️ **Index** — A named storage bucket for events, like a database table. This lab uses one index: `windows_logs`.
-- 📡 **Universal Forwarder** — A lightweight, free agent installed on any machine whose logs you want in Splunk. Monitors log files/Windows Event Logs, compresses and forwards them to your indexer over port 9997.
-- 🏗️ **Infrastructure as Code (Terraform)** — Declarative config describing the desired end state of infrastructure; a state file tracks what Terraform believes exists, so re-running `apply` reconciles reality to match the code rather than re-creating things from scratch.
-- 🔄 **CI/CD Pipeline** — Automated checks that run on every code change, catching formatting, syntax, and security issues before a human has to remember to look for them.
-- 📝 **inputs.conf** — Config file on the forwarder that defines which logs get collected and which index they land in. See [`scripts/inputs.conf`](scripts/inputs.conf).
+-  **SIEM** — Security Information and Event Management. Collects logs from across the environment into one searchable place. Two core jobs: **correlation** (connecting events across systems) and **alerting** (notifying analysts automatically).
+-  **SPL (Search Processing Language)** — Splunk's query language. Works as a pipeline: `index=windows_logs EventCode=4624 | stats count by Account_Name | sort -count`. Find the events, then shape the results.
+-  **Index** — A named storage bucket for events, like a database table. This lab uses one index: `windows_logs`.
+-  **Universal Forwarder** — A lightweight, free agent installed on any machine whose logs you want in Splunk. Monitors log files/Windows Event Logs, compresses and forwards them to your indexer over port 9997.
+-  **Infrastructure as Code (Terraform)** — Declarative config describing the desired end state of infrastructure; a state file tracks what Terraform believes exists, so re-running `apply` reconciles reality to match the code rather than re-creating things from scratch.
+-  **CI/CD Pipeline** — Automated checks that run on every code change, catching formatting, syntax, and security issues before a human has to remember to look for them.
+-  **inputs.conf** — Config file on the forwarder that defines which logs get collected and which index they land in. See [`scripts/inputs.conf`](scripts/inputs.conf).
 ---
  
 ## ✅ What This Build Demonstrates
  
 | Skill | Real-world application |
 |---|---|
-| 🏗️ Provision cloud infrastructure with Terraform | Reproducible, version-controlled infra instead of undocumented Portal clicks |
-| 🔄 Build a CI/CD pipeline for infrastructure code | Automated quality/security gates instead of relying on manual review every time |
-| 📥 Deploy Splunk and configure a data input | Every Splunk deployment starts with getting data in |
-| 🧭 Navigate the Splunk interface | Search, dashboards, alerts — table stakes for any SOC role |
-| 🔍 Write SPL searches | The skill that separates analysts who find threats from analysts who stare at dashboards |
-| 📊 Build security dashboards | Visualizing login failures, top source IPs, failed auth by user at a glance |
-| 🚫 Identify failed login attempts | Distinguishing normal user error from a brute-force attempt |
-| 🔔 Build an automated alert | Detection that runs on a schedule instead of waiting for a human to notice |
-| 🔒 Search for account lockout events | A lockout trail can indicate a password-spray attack in progress |
-| 🛠️ Diagnose and fix a real security gap | Found `LockoutThreshold=0` on the domain, root-caused why alerts never fired, fixed the actual policy, and verified the fix with real event data |
+|  Provision cloud infrastructure with Terraform | Reproducible, version-controlled infra instead of undocumented Portal clicks |
+|  Build a CI/CD pipeline for infrastructure code | Automated quality/security gates instead of relying on manual review every time |
+|  Deploy Splunk and configure a data input | Every Splunk deployment starts with getting data in |
+|  Navigate the Splunk interface | Search, dashboards, alerts — table stakes for any SOC role |
+|  Write SPL searches | The skill that separates analysts who find threats from analysts who stare at dashboards |
+|  Build security dashboards | Visualizing login failures, top source IPs, failed auth by user at a glance |
+|  Identify failed login attempts | Distinguishing normal user error from a brute-force attempt |
+|  Build an automated alert | Detection that runs on a schedule instead of waiting for a human to notice |
+|  Search for account lockout events | A lockout trail can indicate a password-spray attack in progress |
+|  Diagnose and fix a real security gap | Found `LockoutThreshold=0` on the domain, root-caused why alerts never fired, fixed the actual policy, and verified the fix with real event data |
  
 ---
  
 ## 🏁 Build Summary
  
-1. ⚙️ **Infrastructure provisioned via Terraform** — resource group, dedicated VNet (`10.1.0.0/16`, separate from the Lab 1 AD VNet), subnet, NSG with three scoped rules, static public IP, NIC, and an Ubuntu 22.04 VM with SSH-key-only authentication. See `terraform/`.
-2. 🔐 **NSG rules codified in `main.tf`** — port 8000 (web UI) and 22 (SSH) restricted to my IP only; port 9997 (forwarder) restricted to the Lab 1 AD VNet's CIDR only — no manual Portal rule-clicking, no drift risk.
-3. 🔗 **VNet Peering configured** between the Splunk VNet and the Lab 1 AD VNet, so forwarder traffic can actually reach the indexer over the private network path.
-4. 💿 **Splunk Enterprise installed via SSH** onto the Terraform-provisioned VM, converts to free tier after the 60-day trial.
-5. 📡 **Universal Forwarder installed** on the Windows Server VM from Lab 1, configured via `inputs.conf` to forward Security, System, and Application event logs into the `windows_logs` index.
-6. 🧪 **Test data generated** using a PowerShell script that simulates failed logons, a successful logon, service restarts, application events, and an account lockout — see [`scripts/generate-test-logs.ps1`](scripts/generate-test-logs.ps1).
-7. 🛠️ **Root-caused and fixed a real domain security gap** — discovered `LockoutThreshold=0` meant account lockout could never fire regardless of failed-attempt volume, corrected it to a production-realistic threshold of 5, and verified with a real triggered 4740 event.
-8. 🔍 **SPL searches written** to surface successful logins, after-hours logins, and privileged logon activity.
-9. 📊 **"Windows Security Overview" dashboard built** with four panels: Account Activity, Top Processes, Login Activity Over Time, After-Hours Logins.
-10. 🔔 **Scheduled alert configured** — "High Privileged Logon Count" — fires every 15 minutes if any account exceeds a baselined privileged-logon threshold (EventCode 4672), logged to Splunk's Triggered Alerts history. Known false-positive source (`lab1-dc01$`, the DC's own machine account) documented rather than hidden.
-11. 🔄 **CI/CD pipeline built and verified** — GitHub Actions runs `terraform fmt`, `terraform validate`, and `tfsec` on every push touching `terraform/**`. Caught and required a fix for a real formatting inconsistency before passing.
+1.  **Infrastructure provisioned via Terraform** — resource group, dedicated VNet (`10.1.0.0/16`, separate from the Lab 1 AD VNet), subnet, NSG with three scoped rules, static public IP, NIC, and an Ubuntu 22.04 VM with SSH-key-only authentication. See `terraform/`.
+2.  **NSG rules codified in `main.tf`** — port 8000 (web UI) and 22 (SSH) restricted to my IP only; port 9997 (forwarder) restricted to the Lab 1 AD VNet's CIDR only — no manual Portal rule-clicking, no drift risk.
+3.  **VNet Peering configured** between the Splunk VNet and the Lab 1 AD VNet, so forwarder traffic can actually reach the indexer over the private network path.
+4.  **Splunk Enterprise installed via SSH** onto the Terraform-provisioned VM, converts to free tier after the 60-day trial.
+5.  **Universal Forwarder installed** on the Windows Server VM from Lab 1, configured via `inputs.conf` to forward Security, System, and Application event logs into the `windows_logs` index.
+6.  **Test data generated** using a PowerShell script that simulates failed logons, a successful logon, service restarts, application events, and an account lockout — see [`scripts/generate-test-logs.ps1`](scripts/generate-test-logs.ps1).
+7.  **Root-caused and fixed a real domain security gap** — discovered `LockoutThreshold=0` meant account lockout could never fire regardless of failed-attempt volume, corrected it to a production-realistic threshold of 5, and verified with a real triggered 4740 event.
+8.  **SPL searches written** to surface successful logins, after-hours logins, and privileged logon activity.
+9.  **"Windows Security Overview" dashboard built** with four panels: Account Activity, Top Processes, Login Activity Over Time, After-Hours Logins.
+10.  **Scheduled alert configured** — "High Privileged Logon Count" — fires every 15 minutes if any account exceeds a baselined privileged-logon threshold (EventCode 4672), logged to Splunk's Triggered Alerts history. Known false-positive source (`lab1-dc01$`, the DC's own machine account) documented rather than hidden.
+11.  **CI/CD pipeline built and verified** — GitHub Actions runs `terraform fmt`, `terraform validate`, and `tfsec` on every push touching `terraform/**`. Caught and required a fix for a real formatting inconsistency before passing.
 **[SCREENSHOT PLACEHOLDER: Splunk web UI login screen]**
  
 ---
