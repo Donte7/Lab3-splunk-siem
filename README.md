@@ -149,30 +149,6 @@ Every push or pull request touching `terraform/**` is automatically checked by G
  
 ---
  
-## 📸 Screenshots
- 
-> Fill these in as you complete each step. Suggested order:
- 
-1. **[SCREENSHOT: `terraform plan` output]** — showing the resources to be created
-2. **[SCREENSHOT: `terraform apply` output]** — showing completed resources and outputs (IP, SSH command)
-3. **[SCREENSHOT: Azure Portal, resource group overview]** — confirming Terraform-created resources match what's in the Portal
-4. **[SCREENSHOT: Azure NSG inbound rules]** — showing ports 22/8000 locked to my IP, 9997 locked to the AD VNet CIDR
-5. **[SCREENSHOT: VNet Peering status]** — both links showing Connected
-6. **[SCREENSHOT: `splunk status` output]** — confirming `splunkd is running`
-7. **[SCREENSHOT: Splunk web UI login page]**
-8. **[SCREENSHOT: Splunk web UI, Settings → Forwarding and Receiving]** — port 9997 configured
-9. **[SCREENSHOT: `windows_logs` index created]** — Settings → Indexes
-10. **[SCREENSHOT: `inputs.conf` open in VS Code]** — on the Windows Server VM
-11. **[SCREENSHOT: PowerShell log generator script running]**
-12. **[SCREENSHOT: `index=windows_logs | head 100` search results]** — proving data is flowing
-13. **[SCREENSHOT: EventCode=4624 search results table]**
-14. **[SCREENSHOT: Get-ADDefaultDomainPasswordPolicy before/after]** — showing LockoutThreshold 0 → 5
-15. **[SCREENSHOT: EventCode=4740 search results]** — the verified lockout event
-16. **[SCREENSHOT: Windows Security Overview dashboard, all 4 panels populated]**
-17. **[SCREENSHOT: Alert configuration screen — "High Privileged Logon Count"]**
-18. **[SCREENSHOT: Activity → Triggered Alerts history]**
-19. **[SCREENSHOT: GitHub Actions — Terraform CI run, both jobs passing]**
----
  
 ## 📁 Repo Contents
  
